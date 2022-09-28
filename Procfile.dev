@@ -1,0 +1,4 @@
+# Procfile.dev
+# Run foreman start -f Procfile.dev -p 3000
+web: bundle exec rails s
+webpacker: ./bin/webpack-dev-server
