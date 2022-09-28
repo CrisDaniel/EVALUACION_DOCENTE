@@ -1,0 +1,8 @@
+.grid-rows-layout{
+  grid-template-rows: 64px calc(100vh - 64px);
+}
+
+.active-navlink {
+  border-color: #6366f1;
+  color: #6366f1; 
+}
