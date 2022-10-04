@@ -1,0 +1,1 @@
+class PolicyException < StandardError; end
