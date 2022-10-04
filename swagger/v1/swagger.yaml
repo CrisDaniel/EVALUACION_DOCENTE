@@ -1,0 +1,1709 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/v1/courses/{course_id}":
+    delete:
+      summary: Elimina un curso
+      tags:
+      - Courses
+      description: Retorna un mensaje de success si el curso se elimino con éxito.
+      parameters:
+      - name: Authorization
+        in: header
+      - name: course_id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Success!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+        '404':
+          description: Not Found!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+        '401':
+          description: JWT error!!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+    get:
+      summary: Retorna un curso
+      tags:
+      - Courses
+      description: Retorna un curso si el curso es encontrado
+      parameters:
+      - name: Authorization
+        in: header
+      - name: course_id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: success!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      code:
+                        type: string
+                      name:
+                        type: string
+                      teacher:
+                        type: string
+                  message:
+                    type: string
+        '404':
+          description: Not Found!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  code:
+                    type: string
+                  message:
+                    type: string
+        '401':
+          description: JWT error!!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+    patch:
+      summary: Actualiza un curso
+      tags:
+      - Courses
+      description: Retorna un mensaje de success si el curso se actualizo con exito
+      parameters:
+      - name: Authorization
+        in: header
+      - name: course_id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: success!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  code:
+                    type: string
+                  message:
+                    type: string
+        '404':
+          description: Not Found!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  code:
+                    type: string
+                  message:
+                    type: string
+        '401':
+          description: Jwt error!!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                course:
+                  type: object
+                  properties:
+                    code:
+                      type: integer
+                    name:
+                      type: string
+  "/api/v1/courses":
+    get:
+      summary: Retorna una lista de Cursos
+      tags:
+      - Courses
+      description: 'Retorna una lista de todos los cursos y pueden ser filtrados por:
+        <br/><br/> q = este es el search que busca por "name" <br/><br/> order_by
+        = ordena por el campo "name" y soport "ASC" y "DESC" <br/><br/> page = Numero
+        de pagina a mostrar'
+      parameters:
+      - name: Authorization
+        in: header
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: order_by
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: success!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      per_page:
+                        type: integer
+                      total_pages:
+                        type: integer
+                      total_objects:
+                        type: integer
+                      current_page:
+                        type: integer
+                      courses:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            code:
+                              type: string
+                            name:
+                              type: string
+                  message:
+                    type: string
+        '401':
+          description: JWT error!!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+    post:
+      summary: Crea un nuevo Curso
+      tags:
+      - Courses
+      description: Crea/Agrega un nuevo curso.
+      parameters:
+      - name: Authorization
+        in: header
+      responses:
+        '200':
+          description: success!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  course:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      code:
+                        type: string
+                      name:
+                        type: string
+        '400':
+          description: error!!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+        '401':
+          description: Jwt error!!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                course:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                    name:
+                      type: string
+              required:
+              - code
+  "/api/v1/reports/teachers":
+    get:
+      summary: Retorna la lista de reporte de docentes
+      tags:
+      - Reports
+      description: 'Retorna una lista de docentes y pueden ser filtrados por: <br/><br/>
+        q = este es el search que busca por "fullname", "correo" <br/><br/> order_by
+        = ordena por el campo "full_name" y soport "ASC" y "DESC" <br/><br/> page
+        = Numero de pagina a mostrar'
+      parameters:
+      - name: Authorization
+        in: header
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: order_by
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: success!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      per_page:
+                        type: integer
+                      total_pages:
+                        type: integer
+                      total_objects:
+                        type: integer
+                      current_page:
+                        type: integer
+                      teachers:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            code:
+                              type: integer
+                            fullname:
+                              type: string
+                            email:
+                              type: string
+                            surveys:
+                              type: object
+                              properties:
+                                completed:
+                                  type: integer
+                                incompleted:
+                                  type: integer
+                            categories:
+                              type: object
+                              properties:
+                                domain:
+                                  type: number
+                                methodology:
+                                  type: number
+                                relationship:
+                                  type: number
+                                puntuality:
+                                  type: number
+                                contents:
+                                  type: number
+                                dedication:
+                                  type: number
+                                discipline:
+                                  type: number
+        '401':
+          description: JWT error!!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+  "/api/v1/users/students/{student_id}":
+    delete:
+      summary: Elimina un estudiante
+      tags:
+      - Students
+      description: Retorna un mensaje de success si el estudiante se elimino con éxito.
+      parameters:
+      - name: Authorization
+        in: header
+      - name: student_id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Success!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+        '404':
+          description: Not Found!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+        '401':
+          description: JWT error!!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+    get:
+      summary: Retorna un estudiante
+      tags:
+      - Students
+      description: Retorna los datos de un estudiante si es encontrado
+      parameters:
+      - name: Authorization
+        in: header
+      - name: student_id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: success!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      code:
+                        type: integer
+                      fullname:
+                        type: string
+                      email:
+                        type: string
+                      role:
+                        type: string
+                      courses:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            code:
+                              type: string
+                            name:
+                              type: string
+                            teacher:
+                              type: string
+                  message:
+                    type: string
+        '404':
+          description: Not Found!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  code:
+                    type: string
+                  message:
+                    type: string
+        '401':
+          description: JWT error!!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+  "/api/v1/users/students":
+    get:
+      summary: Retorna una lista de estudiantes
+      tags:
+      - Students
+      description: 'Retorna una lista de estudiantes y pueden ser filtrados por: <br/><br/>
+        q = este es el search que busca por "fullname", "correo" <br/><br/> order_by
+        = ordena por el campo "full_name" y soport "ASC" y "DESC" <br/><br/> page
+        = Numero de pagina a mostrar'
+      parameters:
+      - name: Authorization
+        in: header
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: order_by
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: success!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      per_page:
+                        type: integer
+                      total_pages:
+                        type: integer
+                      total_objects:
+                        type: integer
+                      current_page:
+                        type: integer
+                      students:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            code:
+                              type: integer
+                            fullname:
+                              type: string
+                            email:
+                              type: string
+                            role:
+                              type: string
+                  message:
+                    type: string
+        '401':
+          description: JWT error!!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+  "/api/v1/users/surveys":
+    get:
+      summary: Retorna la lista de encuestas de un estudiante
+      tags:
+      - Surveys
+      description: Retorna la lista de encuestas de un estudiante logeado
+      parameters:
+      - name: Authorization
+        in: header
+      responses:
+        '200':
+          description: success!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        teacher:
+                          type: string
+                        course:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
+                        state:
+                          type: string
+                  message:
+                    type: string
+        '401':
+          description: JWT error!!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+  "/api/v1/users/surveys/{id}":
+    get:
+      summary: Retorna una encuesta
+      tags:
+      - Surveys
+      description: Retorna una encuesta si esta publicada </br> Si la encuesta ya
+        fue completada no retornara nada
+      parameters:
+      - name: Authorization
+        in: header
+      - name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: success!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      teacher:
+                        type: string
+                      course:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          name:
+                            type: string
+                      template_questions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            order:
+                              type: integer
+                            category:
+                              type: string
+                            question:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                content:
+                                  type: string
+                  message:
+                    type: string
+        '404':
+          description: Not Found!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+        '401':
+          description: JWT error!!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+    patch:
+      summary: Guarda las respuestas de una encuesta
+      tags:
+      - Surveys
+      description: Retorna un mensaje de success si las respuestas se agregaron con
+        exito
+      parameters:
+      - name: Authorization
+        in: header
+      - name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: success!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+        '404':
+          description: Not Found!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+        '401':
+          description: Jwt error!!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                survey:
+                  type: object
+                  properties:
+                    answers:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          question_id:
+                            type: integer
+                          point:
+                            type: integer
+  "/api/v1/users/teachers/{teacher_id}":
+    delete:
+      summary: Elimina un docente
+      tags:
+      - Teachers
+      description: Retorna un mensaje de success si el docente se elimino con éxito.
+      parameters:
+      - name: Authorization
+        in: header
+      - name: teacher_id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Success!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+        '404':
+          description: Not Found!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+        '401':
+          description: JWT error!!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+    get:
+      summary: Retorna un docente
+      tags:
+      - Teachers
+      description: Retorna los datos de un docente si es encontrado
+      parameters:
+      - name: Authorization
+        in: header
+      - name: teacher_id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: success!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      code:
+                        type: integer
+                      fullname:
+                        type: string
+                      email:
+                        type: string
+                      role:
+                        type: string
+                      courses:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            code:
+                              type: string
+                            name:
+                              type: string
+                            teacher:
+                              type: string
+                  message:
+                    type: string
+        '404':
+          description: Not Found!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  code:
+                    type: string
+                  message:
+                    type: string
+        '401':
+          description: JWT error!!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+  "/api/v1/users/teachers":
+    get:
+      summary: Retorna una lista de docentes
+      tags:
+      - Teachers
+      description: 'Retorna una lista de docentes y pueden ser filtrados por: <br/><br/>
+        q = este es el search que busca por "fullname", "correo" <br/><br/> order_by
+        = ordena por el campo "full_name" y soport "ASC" y "DESC" <br/><br/> page
+        = Numero de pagina a mostrar'
+      parameters:
+      - name: Authorization
+        in: header
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: order_by
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: success!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      per_page:
+                        type: integer
+                      total_pages:
+                        type: integer
+                      total_objects:
+                        type: integer
+                      current_page:
+                        type: integer
+                      teachers:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            code:
+                              type: integer
+                            fullname:
+                              type: string
+                            email:
+                              type: string
+                            role:
+                              type: string
+                  message:
+                    type: string
+        '401':
+          description: JWT error!!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+  "/api/v1/templates/{template_id}/clone":
+    post:
+      summary: Clona un template
+      tags:
+      - Templates
+      description: Clona un template
+      parameters:
+      - name: Authorization
+        in: header
+      - name: template_id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: success!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  template:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      code:
+                        type: string
+                      name:
+                        type: string
+                      state:
+                        type: string
+                      template_questions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            order:
+                              type: integer
+                            category:
+                              type: string
+                            question:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                content:
+                                  type: string
+                  message:
+                    type: string
+        '404':
+          description: Not Found!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+        '401':
+          description: Jwt error!!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+  "/api/v1/templates/{template_id}":
+    delete:
+      summary: Elimina un template que nunca fue publicado
+      tags:
+      - Templates
+      description: Retorna un mensaje de success si el template se elimino con éxito.
+      parameters:
+      - name: Authorization
+        in: header
+      - name: template_id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Success!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+        '404':
+          description: Not Found!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+        '401':
+          description: JWT error!!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+    get:
+      summary: Retorna un Templae
+      tags:
+      - Templates
+      description: Retorna un template si es encontrado
+      parameters:
+      - name: Authorization
+        in: header
+      - name: template_id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: success!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  template:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      code:
+                        type: string
+                      name:
+                        type: string
+                      state:
+                        type: string
+                      template_questions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            order:
+                              type: integer
+                            category:
+                              type: string
+                            question:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                content:
+                                  type: string
+                  message:
+                    type: string
+        '404':
+          description: Not Found!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+        '401':
+          description: JWT error!!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+    patch:
+      summary: Actualiza un template
+      tags:
+      - Templates
+      description: "Retorna el template actualizado </br></br>\n                    Siempre
+        que envie un `template_question.id` se asume que esta modificando solo sus
+        propiedades `order` || `category` </br></br>\n                    Si desea
+        agregar/crear una nueva pregunta, puede enviarlo sin necesidad de pasarle
+        un `template_question.id` </br></br>\n                    Si intenta enviar
+        una pregunta modificada, esta sera una pregunta nueva, por lo que recomendamos
+        enviarlo sin la propiedad `template_question.id` </br>\n                    de
+        lo contrario retornara un error.</br></br> \n                    Si desea
+        eliminar una pregunta que ya existe en el template, solo __*NO ENVIE*__ el
+        `template_question` que desea eliminar </br></br>\n                    \n
+        \                   PD: Recuerde que solo podemos actualizar los templates
+        que estan en 'draft'"
+      parameters:
+      - name: Authorization
+        in: header
+      - name: template_id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: success!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  template:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      code:
+                        type: string
+                      name:
+                        type: string
+                      state:
+                        type: string
+                  message:
+                    type: string
+        '404':
+          description: Not Found!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+        '401':
+          description: Jwt error!!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                template:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                    name:
+                      type: string
+                    template_questions:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          order:
+                            type: integer
+                          category:
+                            type: string
+                          question:
+                            type: object
+                            properties:
+                              content:
+                                type: string
+  "/api/v1/templates":
+    get:
+      summary: Retorna una lista de Templates
+      tags:
+      - Templates
+      description: 'Retorna una lista de todos los templates y pueden ser filtrados
+        por: <br/><br/> q = este es el search que busca por "name" <br/><br/> order_by
+        = ordena por el campo "name" y soport "ASC" y "DESC" <br/><br/> page = Numero
+        de pagina a mostrar'
+      parameters:
+      - name: Authorization
+        in: header
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: order_by
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: success!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      per_page:
+                        type: integer
+                      total_pages:
+                        type: integer
+                      total_objects:
+                        type: integer
+                      current_page:
+                        type: integer
+                      templates:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            code:
+                              type: string
+                            name:
+                              type: string
+                            status:
+                              type: string
+                  message:
+                    type: string
+        '401':
+          description: JWT error!!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+    post:
+      summary: Crea un nuevo Template
+      tags:
+      - Templates
+      description: Crea un nuevo template
+      parameters:
+      - name: Authorization
+        in: header
+      responses:
+        '200':
+          description: success!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  template:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      code:
+                        type: string
+                      name:
+                        type: string
+                      state:
+                        type: string
+                  message:
+                    type: string
+        '422':
+          description: error!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: array
+                    items:
+                      type: string
+        '401':
+          description: Jwt error!!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  template:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      code:
+                        type: string
+                      name:
+                        type: string
+                      state:
+                        type: string
+                  message:
+                    type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                template:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                    name:
+                      type: string
+                    template_questions:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          order:
+                            type: integer
+                          category:
+                            type: string
+                          question:
+                            type: object
+                            properties:
+                              content:
+                                type: string
+  "/api/v1/users":
+    post:
+      summary: Crea un nuevo usuario [ student || teacher ]
+      tags:
+      - Users
+      description: Retorna un mensaje de success si el usuario se creo con exito.
+        <br/><br/> Roles permitidos [ student || teacher ]
+      parameters:
+      - name: Authorization
+        in: header
+      responses:
+        '200':
+          description: success!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  code:
+                    type: string
+                  message:
+                    type: string
+        '400':
+          description: error!!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  code:
+                    type: string
+                  message:
+                    type: string
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  code:
+                    type: string
+                  message:
+                    type: string
+        '401':
+          description: Jwt error!!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    code:
+                      type: integer
+                    fullname:
+                      type: string
+                    email:
+                      type: string
+                    role_name:
+                      type: string
+                    course_ids:
+                      type: array
+                      items:
+                        type: integer
+                      description: Courses List
+                      required: false
+              required:
+              - code
+              - email
+              - role_name
+  "/api/v1/login":
+    post:
+      summary: Devuelve la sesion
+      tags:
+      - Users
+      description: retorna los datos usuario y en el header el JWT response.header["Authorization"]
+      parameters: []
+      responses:
+        '200':
+          description: success!!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      code:
+                        type: integer
+                      fullname:
+                        type: string
+                      email:
+                        type: string
+                      role:
+                        type: string
+        '401':
+          description: error!!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                    password:
+                      type: string
+              required:
+              - email
+              - password
+  "/api/v1/logout":
+    delete:
+      summary: Elimina la sesion
+      tags:
+      - Users
+      description: retorna un status 200
+      responses:
+        '200':
+          description: success!!!
+  "/api/v1/users/{user_id}":
+    patch:
+      summary: Actualiza un usuario
+      tags:
+      - Users
+      description: Retorna un mensaje de success si el usuario se actualizo con exito
+      parameters:
+      - name: Authorization
+        in: header
+      - name: user_id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: success!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  code:
+                    type: string
+                  message:
+                    type: string
+        '404':
+          description: Not Found!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  code:
+                    type: string
+                  message:
+                    type: string
+        '401':
+          description: Jwt error!!!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  message:
+                    type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    code:
+                      type: integer
+                    email:
+                      type: string
+                    fullname:
+                      type: string
+                    course_ids:
+                      type: array
+                      items:
+                        type: integer
+                      description: Courses List
+                      required: false
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com
